@@ -1,18 +1,22 @@
 mlst_db:
-  /data/ngono/mlst_database/
+  data/ngono/mlst_database
 positions:
   2044,2045,2597
 read_dir:
   none
 contig_dir:
-  none
+  ~/upload
 previous_runs:
   none
 strictness:
   "partial"
 update_db:
-  false
+  true
 max_missing_mst:
   5
 bigsdb_tokens:
   none
+workdir:
+  ngpiperesults
+samples:
+  ~/upload/samples.txt
