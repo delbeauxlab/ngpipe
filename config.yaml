@@ -15,7 +15,7 @@ update_db:
 max_missing_mst:
   5
 bigsdb_tokens:
-  none
+  ~/.bigsdb_tokens
 workdir:
   ngpiperesults
 samples:

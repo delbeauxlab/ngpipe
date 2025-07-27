@@ -7,5 +7,7 @@ conda init
 mamba shell init
 conda env create -f ngpipe.yaml
 git clone https://github.com/qhgenomics/pyngoST.git
+git clone https://github.com/kjolley/BIGSdb_downloader.git
 mkdir -p ${HOME}/.local/bin
-ln -s ~/pyngoST/pyngoST ~/.local/bin
+ln -s ~/pyngoST/pyngoST/pyngoST.py ~/.local/bin
+ln -s ~/BIGSdb_downloader/bigsdb_downloader.py ~/.local/bin
