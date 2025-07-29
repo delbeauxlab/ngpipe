@@ -7,9 +7,13 @@ workdir: config["workdir"]
 
 onsuccess:
     print("Workflow finished, no error")
+    shell("echo {log} > success.log")
+    shell("sudo shutdown -h 0")
 
 onerror:
     print("An error occurred")
+    shell("echo {log} > failure.log")
+    shell("sudo shutdown -h 0")
 
 
 
