@@ -5,7 +5,7 @@ positions:
 read_dir:
   none
 contig_dir:
-  ~/upload
+  /home/ubuntu/upload
 previous_runs:
   none
 strictness:
@@ -15,8 +15,8 @@ update_db:
 max_missing_mst:
   5
 bigsdb_tokens:
-  ~/.bigsdb_tokens
+  /home/ubuntu/.bigsdb_tokens
 workdir:
   ngpiperesults
 samples:
-  ~/upload/samples.txt
+  /home/ubuntu/upload/samples.txt
