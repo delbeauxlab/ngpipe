@@ -9,7 +9,7 @@ do
     mkdir $id
     tar -xzvf $tarball -C $id
     cd $id
-    ls 2>/dev/null -Ub1 -- *.fasta | sed 's/.fasta//g' > sample.txt
+    ls 2>/dev/null -Ub1 -- *.fasta | sed 's/.fasta//g' > samples.txt
     cd ..
     tmux new-session -d -s "$id"
     tmux send-keys -t "$id" "conda activate ngpipe" Enter
