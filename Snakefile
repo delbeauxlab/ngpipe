@@ -497,21 +497,21 @@ rule create_output:
     script:
         "scripts/compile_output.py"
 
-    rule tarball:
-        input:
-            "tables.xlsx",
-            "results.tsv",
-            "ngstar.log",
-            "rplf.log",
-            "qclog.tsv",
-            "mst.svg",
-            "step4_abricate",
-            "step3_typing",
-            "step1_qc",
-            "multiqc_report",
-            "database.log",
-            "summary.tsv",
-        output:
-            "ngpresults.tar.gz"
-        shell:
-            "tar -czvf {output} {input}"
+    # rule tarball:
+    #     input:
+    #         "tables.xlsx",
+    #         "results.tsv",
+    #         "ngstar.log",
+    #         "rplf.log",
+    #         "qclog.tsv",
+    #         "mst.svg",
+    #         "step4_abricate",
+    #         "step3_typing",
+    #         "step1_qc",
+    #         "multiqc_report",
+    #         "database.log",
+    #         "summary.tsv",
+    #     output:
+    #         "ngpresults.tar.gz"
+    #     shell:
+    #         "tar -czvf {output} {input}"
