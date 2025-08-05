@@ -1,23 +1,42 @@
 configfile: workflow.source_path("config.yaml")
 workdir: config["workdir"]
 
-
-
-
+import os.path
+import glob
 
 onsuccess:
     print("Workflow finished, no error")
     shell("echo {log} > success.log")
-    shell("sudo shutdown -h 0")
+    if config["shutdown"] == "multiple":
+        tarfiles = glob.glob("~/*.tar.gz")
+        shutdownflag = 1
+        for tar in tarfiles:
+            basename = tar.basename()
+            if not os.path.isfile("~/ngp{0}/success.log".format(tar)):
+                shutdownflag = 0
+            elif not os.path.isfile("~/ngp{0}/failure.log".format(tar)):
+                shutdownflag = 0
+        if shutdownflag == 1:
+            shell("sudo shutdown -h 0")
+    elif config["shutdown"] == "shutdown":
+        shell("sudo shutdown -h 0")
 
 onerror:
     print("An error occurred")
     shell("echo {log} > failure.log")
-    shell("sudo shutdown -h 0")
-
-
-
-
+    if config["shutdown"] == "multiple":
+        tarfiles = glob.glob("~/*.tar.gz")
+        shutdownflag = 1
+        for tar in tarfiles:
+            basename = tar.basename()
+            if not os.path.isfile("~/ngp{0}/success.log".format(tar)):
+                shutdownflag = 0
+            elif not os.path.isfile("~/ngp{0}/failure.log".format(tar)):
+                shutdownflag = 0
+        if shutdownflag == 1:
+            shell("sudo shutdown -h 0")
+    elif config["shutdown"] == "shutdown":
+        shell("sudo shutdown -h 0")
 
 def get_samples(filename):
     with open(filename) as f:
@@ -477,3 +496,22 @@ rule create_output:
         tsv = "step6_output/{sample}_summary.tsv"
     script:
         "scripts/compile_output.py"
+
+    rule tarball:
+        input:
+            "tables.xlsx",
+            "results.tsv",
+            "ngstar.log",
+            "rplf.log",
+            "qclog.tsv",
+            "mst.svg",
+            "step4_abricate",
+            "step3_typing",
+            "step1_qc",
+            "multiqc_report",
+            "database.log",
+            "summary.tsv",
+        output:
+            "ngpresults.tar.gz"
+        shell:
+            "tar -czvf {output} {input}"
