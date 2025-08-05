@@ -6,7 +6,8 @@ cores=$(( 16/$tarcount ))
 for tarball in ~/*.tar.gz
 do
     id=$(basename $tarball .tar.gz)
-    tar -xzvf $tarball
+    mkdir $id
+    tar -xzvf $tarball -C $id
     ls 2>/dev/null -Ub1 -- $id/*.fasta > $id/sample.txt
     tmux new-session -d -s "$id"
     tmux send-keys -t "$id" "conda activate ngpipe" Enter
