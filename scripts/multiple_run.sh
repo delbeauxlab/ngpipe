@@ -23,7 +23,7 @@ do
             update_db=true shutdown=multiple \
             --cores $cores \
             --until update_db_all
-        $counter=1
+        counter=1
     fi
     tmux new-session -d -s "$id"
     tmux send-keys -t "$id" "conda activate ngpipe" Enter
