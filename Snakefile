@@ -25,7 +25,7 @@ onerror:
     print("An error occurred")
     shell("echo {log} > failure.log")
     if config["shutdown"] == "multiple":
-        tarfiles = glob.glob("~/*.tar.gz")
+        tarfiles = glob.glob("/*.tar.gz".format(os.path.expanduser("~")))
         shutdownflag = 1
         for tar in tarfiles:
             basename = tar.basename()

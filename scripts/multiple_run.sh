@@ -20,7 +20,8 @@ do
             contig_dir=/home/ubuntu/$id \
             samples=/home/ubuntu/$id/samples.txt \
             mlst_db=/home/ubuntu/data/ngono/mlst_database \
-            update_db=true shutdown=multiple \
+            update_db=true \
+            shutdown=none \
             --cores $cores \
             --until update_db_all
         counter=1
