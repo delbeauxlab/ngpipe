@@ -12,7 +12,9 @@ onsuccess:
         shutdownflag = 1
         for tar in tarfiles:
             basename = os.path.basename(tar.strip(".tar.gz"))
-            if not os.path.isfile("{0}/ngp{1}/success.log".format(home,basename)) or not os.path.isfile("{0}/ngp{1}/failure.log".format(home,basename)):
+            if os.path.isfile("{0}/ngp{1}/success.log".format(home,basename)) or os.path.isfile("{0}/ngp{1}/failure.log".format(home,basename)):
+                pass
+            else:
                 shutdownflag = 0
         if shutdownflag == 1:
             shell("sudo shutdown -h 0")
@@ -31,7 +33,9 @@ onerror:
         shutdownflag = 1
         for tar in tarfiles:
             basename = os.path.basename(tar.strip(".tar.gz"))
-            if not os.path.isfile("{0}/ngp{1}/success.log".format(home,basename)) or not os.path.isfile("{0}/ngp{1}/failure.log".format(home,basename)):
+            if os.path.isfile("{0}/ngp{1}/success.log".format(home,basename)) or os.path.isfile("{0}/ngp{1}/failure.log".format(home,basename)):
+                pass
+            else:
                 shutdownflag = 0
         if shutdownflag == 1:
             shell("sudo shutdown -h 0")
