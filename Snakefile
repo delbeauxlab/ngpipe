@@ -5,38 +5,42 @@ import os.path
 import glob
 
 onsuccess:
-    print("Workflow finished, no error")
     shell("echo {log} > success.log")
     if config["shutdown"] == "multiple":
-        tarfiles = glob.glob("/*.tar.gz".format(os.path.expanduser("~")))
+        home = os.path.expanduser("~")
+        tarfiles = glob.glob("{0}/*.tar.gz".format(home))
         shutdownflag = 1
         for tar in tarfiles:
-            basename = tar.basename()
-            if not os.path.isfile("~/ngp{0}/success.log".format(tar)):
-                shutdownflag = 0
-            elif not os.path.isfile("~/ngp{0}/failure.log".format(tar)):
+            basename = os.path.basename(tar.strip(".tar.gz"))
+            if not os.path.isfile("{0}/ngp{1}/success.log".format(home,basename)) or not os.path.isfile("{0}/ngp{1}/failure.log".format(home,basename)):
                 shutdownflag = 0
         if shutdownflag == 1:
             shell("sudo shutdown -h 0")
+        else:
+            print("Workflow finished, no error")
     elif config["shutdown"] == "shutdown":
         shell("sudo shutdown -h 0")
+    else:
+        print("Workflow finished, no error")
 
 onerror:
-    print("An error occurred")
     shell("echo {log} > failure.log")
     if config["shutdown"] == "multiple":
-        tarfiles = glob.glob("/*.tar.gz".format(os.path.expanduser("~")))
+        home = os.path.expanduser("~")
+        tarfiles = glob.glob("{0}/*.tar.gz".format(home))
         shutdownflag = 1
         for tar in tarfiles:
-            basename = tar.basename()
-            if not os.path.isfile("~/ngp{0}/success.log".format(tar)):
-                shutdownflag = 0
-            elif not os.path.isfile("~/ngp{0}/failure.log".format(tar)):
+            basename = os.path.basename(tar.strip(".tar.gz"))
+            if not os.path.isfile("{0}/ngp{1}/success.log".format(home,basename)) or not os.path.isfile("{0}/ngp{1}/failure.log".format(home,basename)):
                 shutdownflag = 0
         if shutdownflag == 1:
             shell("sudo shutdown -h 0")
+        else:
+            print("An error occurred")
     elif config["shutdown"] == "shutdown":
         shell("sudo shutdown -h 0")
+    else:
+        print("An error occurred")
 
 def get_samples(filename):
     with open(filename) as f:
