@@ -1,15 +1,14 @@
 #!/bin/bash
-
-tarcount=$(ls 2>/dev/null -Ub1 -- ~/*.tar.gz | wc -l)
-cores=$(( 16/$tarcount ))
-
 counter=0
 
 for tarball in ~/*.tar.gz
 do
     id=$(basename $tarball .tar.gz)
-    mkdir $id
-    tar -xzvf $tarball -C $id
+    if [ ! -d $id ]
+    then
+        mdkir $id
+        tar -xzvf $tarball -C $id
+    fi
     cd $id
     ls 2>/dev/null -Ub1 -- *.fasta | sed 's/.fasta//g' > samples.txt
     cd ..
@@ -22,11 +21,23 @@ do
             mlst_db=/home/ubuntu/data/ngono/mlst_database \
             update_db=true \
             shutdown=none \
-            --cores $cores \
-            --until update_db_all
+            --cores 16
         counter=1
+    else
+        snakemake --snakefile ngpipe/Snakefile \
+            --config workdir=/home/ubuntu/ngp$id \
+            contig_dir=/home/ubuntu/$id \
+            samples=/home/ubuntu/$id/samples.txt \
+            mlst_db=/home/ubuntu/data/ngono/mlst_database \
+            update_db=false \
+            shutdown=none \
+            --cores 16
     fi
-    tmux new-session -d -s "$id"
-    tmux send-keys -t "$id" "conda activate ngpipe" Enter
-    tmux send-keys -t "$id" "snakemake --snakefile ngpipe/Snakefile --config workdir=/home/ubuntu/ngp$id contig_dir=/home/ubuntu/$id samples=/home/ubuntu/$id/samples.txt mlst_db=/home/ubuntu/data/ngono/mlst_database update_db=false shutdown=multiple --cores $cores" Enter
+    cd $id
+    tar -czvf ng$id"results.tar.gz" tables.xlsx results.tsv ngstar.log rplf.log qclog.tsv mst.svg step4_abricate \
+        step3_typing step1_qc multiqc_report database.log summary.tsv
+    mv ng$id"results.tar.gz" ..
+    cd
+    rm $tarball
+    rm -r $id
 done
