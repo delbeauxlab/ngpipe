@@ -1,6 +1,8 @@
 #!/bin/bash
 counter=0
 
+mkdir -p ~/ngresults
+
 for tarball in ~/*.tar.gz
 do
     id=$(basename $tarball .tar.gz)
@@ -36,7 +38,7 @@ do
     cd $id
     tar -czvf ng$id"results.tar.gz" tables.xlsx results.tsv ngstar.log rplf.log qclog.tsv mst.svg step4_abricate \
         step3_typing step1_qc multiqc_report database.log summary.tsv
-    mv ng$id"results.tar.gz" ..
+    mv ng$id"results.tar.gz" ~/ngresults/ng$id"results.tar.gz"
     cd
     rm $tarball
     rm -r $id
