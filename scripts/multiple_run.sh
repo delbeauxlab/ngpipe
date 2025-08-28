@@ -8,10 +8,10 @@ do
     then
         mdkir $id
         tar -xzvf $tarball -C $id
+        cd $id
+        ls 2>/dev/null -Ub1 -- *.fasta | sed 's/.fasta//g' > samples.txt
+        cd ..
     fi
-    cd $id
-    ls 2>/dev/null -Ub1 -- *.fasta | sed 's/.fasta//g' > samples.txt
-    cd ..
     if [ $counter -eq 0 ]
     then
         snakemake --snakefile ngpipe/Snakefile \
@@ -41,3 +41,5 @@ do
     rm $tarball
     rm -r $id
 done
+
+sudo shutdown -h 0
