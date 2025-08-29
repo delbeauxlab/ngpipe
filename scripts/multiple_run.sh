@@ -39,7 +39,7 @@ do
     tar -czvf ng$id"results.tar.gz" tables.xlsx results.tsv ngstar.log rplf.log qclog.tsv mst.svg step4_abricate step3_typing step1_qc multiqc_report database.log summary.tsv
     mv ng$id"results.tar.gz" ~/ngresults/ng$id"results.tar.gz"
     cd
-    # rm -r $id ngp$id $tarball
+    rm -r $id ngp$id $tarball
 done
 
-# sudo shutdown -h 0
+sudo shutdown -h 0
