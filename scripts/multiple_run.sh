@@ -12,7 +12,7 @@ do
         tar -xzvf $tarball -C $id
         cd $id
         ls 2>/dev/null -Ub1 -- *.fasta | sed 's/.fasta//g' > samples.txt
-        cd ..
+        cd
     fi
     if [ $counter -eq 0 ]
     then
@@ -35,13 +35,11 @@ do
             shutdown=none \
             --cores 16
     fi
-    cd $id
-    tar -czvf ng$id"results.tar.gz" tables.xlsx results.tsv ngstar.log rplf.log qclog.tsv mst.svg step4_abricate \
-        step3_typing step1_qc multiqc_report database.log summary.tsv
+    cd ngp$id
+    tar -czvf ng$id"results.tar.gz" tables.xlsx results.tsv ngstar.log rplf.log qclog.tsv mst.svg step4_abricate step3_typing step1_qc multiqc_report database.log summary.tsv
     mv ng$id"results.tar.gz" ~/ngresults/ng$id"results.tar.gz"
     cd
-    rm $tarball
-    rm -r $id
+    rm -r $id ngp$id $tarball
 done
 
 sudo shutdown -h 0
