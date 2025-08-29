@@ -8,7 +8,7 @@ do
     id=$(basename $tarball .tar.gz)
     if [ ! -d $id ]
     then
-        mdkir $id
+        mkdir $id
         tar -xzvf $tarball -C $id
         cd $id
         ls 2>/dev/null -Ub1 -- *.fasta | sed 's/.fasta//g' > samples.txt
